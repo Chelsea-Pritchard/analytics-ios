@@ -38,8 +38,10 @@
 
 + (UIViewController *)seg_topViewController
 {
+    #if !defined(ANALYTICS_APP_EXTENSIONS)
     UIViewController *root = [UIApplication sharedApplication].delegate.window.rootViewController;
     return [self seg_topViewController:root];
+    #endif
 }
 
 + (UIViewController *)seg_topViewController:(UIViewController *)rootViewController
