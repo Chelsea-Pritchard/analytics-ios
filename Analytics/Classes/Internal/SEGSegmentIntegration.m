@@ -259,21 +259,29 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 
 - (void)beginBackgroundTask
 {
+    #if !defined(ANALYTICS_APP_EXTENSIONS)
+
     [self endBackgroundTask];
 
     self.flushTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [self endBackgroundTask];
     }];
+    #endif
+
 }
 
 - (void)endBackgroundTask
 {
+        #if !defined(ANALYTICS_APP_EXTENSIONS)
+
     [self dispatchBackgroundAndWait:^{
         if (self.flushTaskID != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:self.flushTaskID];
             self.flushTaskID = UIBackgroundTaskInvalid;
         }
     }];
+        #endif
+
 }
 
 - (NSString *)description
